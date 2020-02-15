@@ -1,27 +1,31 @@
 package com.project.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Earthquake {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
-    @OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Feature> features;
 
+    public Earthquake() {
+
+    }
     public Earthquake(String type, List<Feature> features) {
         this.type = type;
         this.features=features;
-    }
-    public Earthquake() {
-
     }
 
     public String getType() {

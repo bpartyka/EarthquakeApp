@@ -1,11 +1,13 @@
 package com.project.controller;
 
 import com.project.model.Earthquake;
+import com.project.model.Property;
 import com.project.service.EarthquakeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +35,11 @@ public class EarthquakeController {
     List<Earthquake> all() {
 
         return service.getAll();
+    }
+
+    @GetMapping("/earthquake/{code}")
+    List<Property> getPropertiesByCode(@PathVariable String code) {
+
+        return service.getPropertiesByCode(code);
     }
 }

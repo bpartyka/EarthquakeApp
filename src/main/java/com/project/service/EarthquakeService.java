@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.model.Earthquake;
+import com.project.model.Property;
 import com.project.repository.EarthquakeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -8,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class EarthquakeService {
@@ -36,5 +40,14 @@ public class EarthquakeService {
         Earthquake allEarthquake = responseEntity.getBody();
 
         return allEarthquake;
+    }
+
+
+    public List<Property> getPropertiesByCode(String code) {
+        return repository.findAll().stream()
+                .flatMap(x->x.getFeatures().stream())
+                .map(x->x.getProperties())
+                        .filter(y->y.getCode().equals(code))
+                .collect(Collectors.toList());
     }
 }
